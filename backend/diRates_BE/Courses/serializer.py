@@ -10,3 +10,13 @@ class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseRatings
         fields = '__all__'
+        
+        def validate_score(self, value):
+            if value < 1 or value >5:
+                raise serializers.ValidationError("The rating must be between 1 and 5")
+            return value
+        
+        def validate_course(self,value):
+            if not Courses.objects.filter(code = value.code).exists():
+                raise serializers.ValidationError("The course doesnt exist")
+            return value
