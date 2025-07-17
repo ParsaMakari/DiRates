@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 
+
+
 class Courses(models.Model):
     code = models.CharField(max_length=10, primary_key=True)
     nom = models.CharField(max_length=50)
@@ -21,13 +23,13 @@ class CourseRatings(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 class ReviewLike(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="course_review_likes")
     course_rating = models.ForeignKey(CourseRatings, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ReviewComment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="course_review_comments")
     course_rating = models.ForeignKey(CourseRatings, on_delete=models.CASCADE)
     comment = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)

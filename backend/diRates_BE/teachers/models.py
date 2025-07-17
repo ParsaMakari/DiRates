@@ -1,6 +1,6 @@
 from django.db import models
 from Courses.models import Courses
-from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class Teachers(models.Model):
@@ -19,7 +19,7 @@ class Teachers(models.Model):
 
 
 class TeacherRatings(models.Model): 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teachers, on_delete=models.CASCADE)
     score = models.SmallIntegerField()
     review = models.TextField()
@@ -27,4 +27,18 @@ class TeacherRatings(models.Model):
 
     def __str__(self):
         return f"{self.user.username} rated {self.teacher} - {self.score}/5"
+    
+
+
+class ReviewLike(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="teacher_review_likes")
+    teacher_rating = models.ForeignKey(TeacherRatings, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class ReviewComment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="teacher_review_comments")
+    teacher_rating = models.ForeignKey(TeacherRatings, on_delete=models.CASCADE)
+    comment = models.TextField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
 

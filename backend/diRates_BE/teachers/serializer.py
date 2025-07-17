@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Teachers, TeacherRatings
+from .models import Teachers, TeacherRatings, ReviewComment, ReviewLike
 
 
 class TeachersSerializer(serializers.ModelSerializer):
@@ -30,5 +30,19 @@ class TeacherRatingsSerializer(serializers.ModelSerializer):
         if TeacherRatings.objects.filter(user=user, teacher=teacher).exists():
             raise serializers.ValidationError("You have already rated this teacher!")
         return data
+    
+
+class  ReviewLikeSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = ReviewLike
+        fields = '__all__'
+        read_only_fields = ['user', 'created_at']
+
+
+class  ReviewCommentSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = ReviewComment
+        fields = '__all__'
+        read_only_fields = ['user', 'created_at']
      
 
