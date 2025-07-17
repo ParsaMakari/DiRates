@@ -17,7 +17,21 @@ class CourseRatings(models.Model):
     course = models.ForeignKey(Courses, on_delete= models.CASCADE)
     review = models.TextField()
     score = models.PositiveSmallIntegerField()
+    likes = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class ReviewLike(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    course_rating = models.ForeignKey(CourseRatings, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class ReviewComment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    course_rating = models.ForeignKey(CourseRatings, on_delete=models.CASCADE)
+    comment = models.TextField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
 
 
 
