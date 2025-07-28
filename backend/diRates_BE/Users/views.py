@@ -14,10 +14,12 @@ from django.contrib.auth.models import User
 @permission_classes([AllowAny])
 def sign_up(request):
     serializer = RegisterSerializer(data=request.data)
-    if serializer.is_valide():
+    if serializer.is_valid():
         user = serializer.save()
-        return Response(UserSerializer(user.data), status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+        user_serializer = UserSerializer(user)  # serialize instance
+        return Response(user_serializer.data, status=status.HTTP_201_CREATED)
+    print(serializer.errors)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
