@@ -1,7 +1,5 @@
 import react from 'react';
 
-
-
 function Courses({courses}){
   
    console.log(courses) 
