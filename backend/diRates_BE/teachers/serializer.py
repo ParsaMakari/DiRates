@@ -3,9 +3,17 @@ from .models import Teachers, TeacherRatings, ReviewComment, ReviewLike
 
 
 class TeachersSerializer(serializers.ModelSerializer):
+    picture = serializers.SerializerMethodField()
+
     class Meta: 
-        model= Teachers
-        fields= '__all__'
+        model = Teachers
+        fields = '__all__'
+
+    def get_picture(self, obj):
+        request = self.context.get('request')
+        if obj.picture:
+            return request.build_absolute_uri(obj.picture.url)
+        return None
 
 class TeacherRatingsSerializer(serializers.ModelSerializer):
     class Meta:

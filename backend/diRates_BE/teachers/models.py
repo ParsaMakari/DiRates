@@ -7,7 +7,7 @@ class Teachers(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
-    picture = models.ImageField(null=True)
+    picture = models.ImageField(null=True, upload_to='teacher_images/')
     departement = models.CharField(max_length=100)
     faculte = models.CharField(max_length=100)
     taught_courses = models.ManyToManyField(Courses)

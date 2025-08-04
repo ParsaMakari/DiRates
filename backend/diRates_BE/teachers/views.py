@@ -11,7 +11,7 @@ from django.db.models import Avg
 @permission_classes([AllowAny])
 def list_teachers(request):
     teachers = Teachers.objects.all()
-    serializer = TeachersSerializer(teachers, many=True)
+    serializer = TeachersSerializer(teachers, many=True, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])

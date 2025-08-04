@@ -1,17 +1,32 @@
 import react from 'react';
+import { useState, useEffect} from 'react';
+import { Rating } from "react-simple-star-rating";
+import axios from "axios";
 
-function Courses({courses}){
+function Courses({courses, user}){
   
-   console.log(courses) 
-    return (
-        <>
-        { courses.map((course)=>(
-            <div>
-                <p>{course.code}</p>
-                <p>{course.name}</p>
-            </div>
-        ))}
-        </>
+    const [courseRatings, setCourseRatings]= useState([]);
+
+    useEffect(()=>{
+        axios
+            .get("http://localhost:8000/api/courses/ratings")
+            .then((res)=>setCourseRatings(res.data))
+            .catch((err)=> console.error(err))
+    },[])
+
+
+
+    return(
+        <></>
+    
+    
+    
+    
+    
+    
+    
+    
+    
     )
 }
 
