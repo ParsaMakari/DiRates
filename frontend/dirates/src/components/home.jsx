@@ -1,6 +1,12 @@
 import React from "react";
+import { useEffect } from 'react';
 
 function Home() {
+
+  useEffect(()=>{
+    document.title ="DiRates"
+  },[])
+
   return (
     <section style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
       <h1>

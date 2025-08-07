@@ -8,13 +8,17 @@ import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
 import Teachers from "./components/Teachers.jsx";
 import Home from "./components/Home.jsx";
+import TeacherDetails from "./components/TeacherDetails.jsx";
+import CourseDetail from "./components/CourseDetail";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 
 function App() {
   const [teachers, setTeachers] = useState([]);
   const [courses, setCourses] = useState([]);
   const [user, setUser] = useState(null);
+  const [courseRatings, setCourseRatings] = useState([]);
+  const [teacherRatings, setTeacherRatings] = useState([]);
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem("darkMode");
     return saved === "true";
@@ -41,21 +45,36 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      const decoded = jwtDecode(token)
+      const decoded = jwtDecode(token);
       setUser({
         id: decoded.user_id,
-      })
+      });
     }
 
+    axios
+      .get("http://localhost:8000/api/courses/ratings")
+      .then((res) => setCourseRatings(res.data))
+      .catch((err) => console.error(err));
 
     axios
       .get("http://localhost:8000/api/teachers/")
-      .then((res) => setTeachers(res.data))
+      .then((res) =>
+        setTeachers(
+          res.data.sort((a, b) => a.last_name.localeCompare(b.last_name))
+        )
+      )
       .catch((err) => console.error(err));
 
     axios
       .get("http://localhost:8000/api/courses/")
-      .then((res) => setCourses(res.data))
+      .then((res) =>
+        setCourses(res.data.sort((a, b) => a.code.localeCompare(b.code)))
+      )
+      .catch((err) => console.error(err));
+
+    axios
+      .get("http://localhost:8000/api/teachers/ratings")
+      .then((res) => setTeacherRatings(res.data))
       .catch((err) => console.error(err));
   }, []);
 
@@ -82,8 +101,48 @@ function App() {
             <Route path="/signup" element={<Navigate to="/" />} />
           </>
         )}
-        <Route path="/teachers" element={<Teachers teachers={teachers} user={user} />} />
-        <Route path="/courses" element={<Courses courses={courses}  user={user} />} />
+        <Route
+          path="/teachers"
+          element={
+            <Teachers
+              teachers={teachers}
+              user={user}
+              ratings={teacherRatings}
+            />
+          }
+        />
+        <Route
+          path="/courses"
+          element={
+            <Courses
+              courses={courses}
+              user={user}
+              courseRatings={courseRatings}
+            />
+          }
+        />
+        <Route
+          path="/courses/:code"
+          element={
+            <CourseDetail
+              courses={courses}
+              user={user}
+              courseRatings={courseRatings}
+              darkMode={darkMode}
+            />
+          }
+        />
+        <Route
+          path="/teachers/:id"
+          element={
+            <TeacherDetails
+              teachers={teachers}
+              user={user}
+              ratings={teacherRatings}
+              darkMode={darkMode}
+            />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

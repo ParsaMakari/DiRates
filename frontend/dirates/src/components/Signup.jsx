@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 function Signup() {
@@ -8,6 +8,10 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
   const [message, setMessage] = useState("");
+
+  useEffect(()=>{
+    document.title ="DiRates | Sign up"
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

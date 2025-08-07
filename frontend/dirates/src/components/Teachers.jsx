@@ -3,16 +3,15 @@ import Card from "react-bootstrap/Card";
 import { Rating } from "react-simple-star-rating";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Link ,useNavigate} from "react-router-dom";
 
-function Teachers({ teachers, user }) {
-  const [ratings, setRatings] = useState([]);
+function Teachers({ teachers, user, ratings }) {
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/teachers/ratings")
-      .then((res) => setRatings(res.data))
-      .catch((err) => console.error(err));
-  }, []);
+  useEffect(()=>{
+    document.title ="DiRates | Teachers"
+  },[])
+
+  const navigate = useNavigate()
 
   return (
     <div
@@ -24,9 +23,11 @@ function Teachers({ teachers, user }) {
       }}
     >
       {teachers.map((teacher) => {
-        const rating =
-          user? ratings.find((r) => r.user === user.id && r.teacher === teacher.id) || null: 
-          null;
+        const rating = user
+          ? ratings.find(
+              (r) => r.user === user.id && r.teacher === teacher.id
+            ) || null
+          : null;
 
         return (
           <Card
@@ -44,14 +45,34 @@ function Teachers({ teachers, user }) {
                 src={teacher.picture}
                 variant="top"
                 style={{ height: "80%", objectFit: "cover" }}
-              />
+              >
+              </Card.Img>
             )}
             <Card.Body style={{ backgroundColor: "" }}>
               <Card.Title>
-                {teacher.first_name} {teacher.last_name}
+                <Link
+                  to={`${teacher.id}`}
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                    transition: "color 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => (e.target.style.color = "#4587f1ff")}
+                  onMouseLeave={(e) => (e.target.style.color = "inherit")}
+                >
+                  {teacher.first_name} {teacher.last_name}
+                </Link>
               </Card.Title>
               {teacher.taught_courses.map((course, index) => (
-                <Card.Link key={index}> {course}</Card.Link>
+                <Card.Link
+                  as={Link}
+                  to={`/courses/${course}`}
+                  key={index}
+                  style={{ color: "gray" }}
+                >
+                  {" "}
+                  {course}
+                </Card.Link>
               ))}
               <Card.Text>
                 <Rating
@@ -59,9 +80,10 @@ function Teachers({ teachers, user }) {
                   initialValue={rating ? rating.score : teacher.rating}
                   allowFraction={true}
                   onClick={() =>
-                    user ? console.log("user") : console.log("not user")
+                    user ? console.log("user") : navigate("/login")
                   }
                   fillColor={rating ? "salmon" : "#f1a545"}
+                  style= {{marginTop:'0.5rem'}}
                 />
               </Card.Text>
             </Card.Body>

@@ -1,10 +1,11 @@
-import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Row, Col, Card } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
 
 function Login({ setUser }) {
+
+  useEffect(()=>{
+    document.title ="DiRates | Login"
+  },[])
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");

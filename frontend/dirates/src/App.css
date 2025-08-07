@@ -1,14 +1,32 @@
+/* Base styles */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
 }
+
+/* Dark mode base */
 .dark-mode {
   background-color: #121212;
   color: #ffffff;
 }
 
-/* input */
+/* Title */
+.auth-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-bottom: 24px;
+  letter-spacing: 0.5px;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+}
+
+.dark-mode .auth-title {
+  color: white;
+}
+
+/* Input */
 .custom-input {
   padding: 12px 16px;
   margin: 3px 0;
@@ -91,4 +109,74 @@ body {
 
 .dark-mode .auth-title {
   color: white
+}
+
+.card {
+  margin-bottom: 1rem;
+  background-color: #f5f5f5 !important;
+  color: #1a1a1a !important;
+  border: 1px solid #ccc !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card .card-title {
+  color: #333 !important;
+}
+
+.card .card-text {
+  color: #444 !important;
+}
+
+.list-group {
+  background-color: #f5f5f5 !important;
+}
+
+.list-group-item {
+  background-color: #ffffff !important;
+  color: #1a1a1a !important;
+  border: 1px solid #ddd !important;
+}
+
+.list-group-item:hover {
+  background-color: #eeeeee !important;
+}
+
+
+.dark-mode .card {
+  background-color: #3a3a3a !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .card .card-title {
+  color: #82b1ff !important;
+}
+
+.dark-mode .card .card-text {
+  color: #dddddd !important;
+}
+
+
+.dark-mode a {
+  color: #4dd0e1;
+}
+
+.dark-mode a:hover {
+  color: #6de3f1;
+  text-decoration: underline;
+}
+
+.dark-mode .list-group {
+  background-color: #333333 !important;
+}
+
+.dark-mode .list-group-item {
+  background-color: #2f2f2f !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-mode .list-group-item:hover {
+  background-color: #404040 !important;
 }

@@ -11,7 +11,7 @@ function Navigation({user, toggleDarkMode, darkMode, signOut}) {
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="/">DiRates</Navbar.Brand>
+          <Navbar.Brand style={{color:"white"}} href="/">DiRates</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/courses">Courses</Nav.Link>
