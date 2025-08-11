@@ -2,23 +2,42 @@ import { Rating } from "react-simple-star-rating";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Link, Outlet } from "react-router-dom";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import SearchBar from './SearchBar.jsx'
 function Courses({ courses, user, courseRatings }) {
 
   useEffect(()=>{
     document.title ="DiRates | Courses"
   },[])
 
+  const [shownCourses, setShownCourses]= useState(courses)
+
+  useEffect(()=>{
+    if(shownCourses.length === 0){
+      setShownCourses(courses)
+    }
+  },[courses])
+
 
   return (
     <div>
+      <SearchBar
+      onSubmit={(searchTerm)=>{
+        setShownCourses(
+          courses.filter((course)=>
+            course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            course.code.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        )
+      }}
+      />
       <Card>
         <Card.Header>
           {" "}
           <b>Courses</b>
         </Card.Header>
         <ListGroup variant="flush">
-          {courses.map((course) => {
+          {shownCourses.map((course) => {
             const rating = user
               ? courseRatings.find(
                   (r) => r.user === user.id && r.course === course.code
