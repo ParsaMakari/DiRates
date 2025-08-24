@@ -31,7 +31,7 @@ function Courses({ courses, user, courseRatings }) {
         )
       }}
       />
-      <Card>
+      <Card style ={{height:"120vh"}}>
         <Card.Header>
           {" "}
           <b>Courses</b>
