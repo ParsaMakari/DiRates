@@ -63,7 +63,8 @@ def get_review(request,pk):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_rating(request):
-    serializer = TeacherRatingsSerializer(data=request.data)
+    print("RAW DATA RECEIVED:", request.data)
+    serializer = TeacherRatingsSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         rating = serializer.save(user=request.user)
         teacher = rating.teacher

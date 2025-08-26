@@ -9,7 +9,8 @@ import Signup from "./components/Signup.jsx";
 import Teachers from "./components/Teachers.jsx";
 import Home from "./components/Home.jsx";
 import TeacherDetails from "./components/TeacherDetails.jsx";
-import CourseDetail from "./components/CourseDetail";
+import CourseDetail from "./components/CourseDetail.jsx";
+import RateTheTeacher from "./components/RateTheTeacher.jsx"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
@@ -126,6 +127,15 @@ function App() {
               teachers={teachers}
               user={user}
               ratings={teacherRatings}
+            />
+          }
+        />
+        <Route
+          path="/teachers/:id/rate"
+          element={
+            <RateTheTeacher
+              teachers={teachers}
+              user={user}
             />
           }
         />

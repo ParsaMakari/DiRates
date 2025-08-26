@@ -6,13 +6,13 @@ import { Rating } from "react-simple-star-rating";
 export default function TeacherDetails({
   teachers,
   user,
-  teacherRatings,
+  ratings,
   darkMode,
 }) {
   const { id } = useParams();
   const teacher = teachers.find((t) => t.id == id);
   const rating = user
-    ? teacherRatings.find(
+    ? ratings.find(
         (r) => r.user === user.id && r.teacher === teacher.id
       ) || null
     : null;

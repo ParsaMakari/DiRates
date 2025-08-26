@@ -99,7 +99,7 @@ function Teachers({ teachers, user, ratings }) {
                     initialValue={rating ? rating.score : teacher.rating}
                     allowFraction={true}
                     onClick={() =>
-                      user ? console.log("user") : navigate("/login")
+                      user ? navigate(`${teacher.id}/rate`) : navigate("/login")
                     }
                     fillColor={rating ? "salmon" : "#f1a545"}
                     style={{ marginTop: "0.5rem" }}
