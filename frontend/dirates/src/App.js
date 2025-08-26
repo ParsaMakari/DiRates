@@ -13,34 +13,23 @@ import CourseDetail from "./components/CourseDetail";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
+
 function App() {
   const [teachers, setTeachers] = useState([]);
   const [courses, setCourses] = useState([]);
   const [user, setUser] = useState(null);
   const [courseRatings, setCourseRatings] = useState([]);
   const [teacherRatings, setTeacherRatings] = useState([]);
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem("darkMode");
-    return saved === "true";
-  });
 
-  const toggleDarkMode = () => {
-    setDarkMode((value) => !value);
-  };
+
+
 
   const signOut = () => {
     localStorage.removeItem("token");
     setUser(null);
   };
 
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
-    localStorage.setItem("darkMode", darkMode);
-  }, [darkMode]);
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -79,12 +68,11 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
+
+    <>
       <div>
         <Navigation
           user={user}
-          darkMode={darkMode}
-          toggleDarkMode={toggleDarkMode}
           signOut={signOut}
         />
       </div>
@@ -128,7 +116,6 @@ function App() {
               courses={courses}
               user={user}
               courseRatings={courseRatings}
-              darkMode={darkMode}
             />
           }
         />
@@ -139,12 +126,12 @@ function App() {
               teachers={teachers}
               user={user}
               ratings={teacherRatings}
-              darkMode={darkMode}
             />
           }
         />
       </Routes>
-    </BrowserRouter>
+    </>
+
   );
 }
 
