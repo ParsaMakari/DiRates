@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import { Rating } from "react-simple-star-rating";
+import Comment from './Comment.jsx'
 
 export default function TeacherDetails({
   teachers,
@@ -16,10 +17,13 @@ export default function TeacherDetails({
         (r) => r.user === user.id && r.teacher === teacher.id
       ) || null
     : null;
+  const teacherReviews = ratings.filter((r)=> r.teacher === teacher.id) || null 
+  console.log(teacherReviews)
   const navigate = useNavigate();
   useEffect(() => {
     document.title = `DiRates | ${teacher ? teacher.last_name : "not found"}`;
   }, [teacher]);
+
 
   if (!teacher) {
     return (
@@ -40,7 +44,7 @@ export default function TeacherDetails({
 
   return (
     <div>
-      <Card key={teacher.id} style={{height:"70vh"}}>
+      <Card key={teacher.id} style={{height:"50vh", margin:'0.5rem'}}>
         <Card.Header>Teacher information</Card.Header>
         <Card.Body>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -66,10 +70,19 @@ export default function TeacherDetails({
             }}
           />
         </Card.Body>
-      </Card>
-      <Card>
+      
 
       </Card>
+
+      {teacherReviews? 
+        teacherReviews.map((r)=>(
+          <Comment key={r.id} stars={r.score} user={r.user}>
+            {r.review}
+          </Comment>)):
+          <></>
+      }
+      
+      
     </div>
   );
 }
