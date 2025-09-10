@@ -36,7 +36,8 @@ def list_ratings(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def post_rating(request):
-    serializer = RatingSerializer(data=request.data)
+    print("RAW DATA RECEIVED:", request.data)
+    serializer = RatingSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         rating = serializer.save(user=request.user) #The user field is filled automatically.
         course = rating.course
