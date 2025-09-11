@@ -45,7 +45,7 @@ function Teachers({ teachers, user, ratings }) {
         {shownTeachers.map((teacher) => {
           const rating = user
             ? ratings.find(
-                (r) => r.user === user.id && r.teacher === teacher.id
+                (r) => r.user.id === user.id && r.teacher === teacher.id
               ) || null
             : null;
 

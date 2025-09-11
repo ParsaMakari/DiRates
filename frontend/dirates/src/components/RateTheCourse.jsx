@@ -1,35 +1,31 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import SubmitRating from "./SubmitRating.jsx";
 
-export default function RateTheTeacher({ teachers, user }) {
+export default function RateTheCourse({ courses, user }) {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { code } = useParams();
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
-
-  const teacher = teachers?.find((t) => t.id == id);
-
+  const course = courses?.find((c) => c.code === code);
 
   useEffect(() => {
-    document.title = "DiRates | Rate Teacher";
-  }, []);
-
+    document.title = "Dirates| Rate Course";
+  });
 
   const handleSubmit = async () => {
     if (rating === 0) {
-      alert("You must choose a rating");
+      alert("You must choose a rating!");
       return;
     }
 
     try {
       const token = localStorage.getItem("token");
-
       const response = await axios.post(
-        "http://localhost:8000/api/teachers/ratings/add",
+        "http://localhost:8000/api/courses/ratings/post",
         {
-          teacher: parseInt(id),
+          course: code,
           score: rating,
           review: comment,
         },
@@ -40,17 +36,17 @@ export default function RateTheTeacher({ teachers, user }) {
           },
         }
       );
-
       alert("Rating submitted!");
       console.log(response.data);
+      navigate("/")
     } catch (error) {
-      if (error.response) {
-        alert(error.response.data.error || "Error submitting rating");
-        console.error(error.response.data);
-      } else {
-        alert("Network error");
-        console.error(error);
-      }
+        if(error.response){
+            alert(error.response.data.error + "|| Error submitting the form")
+            console.error(error.response.data);
+        }
+        else{
+            alert("Network error")
+        }
     }
   };
 
@@ -58,19 +54,20 @@ export default function RateTheTeacher({ teachers, user }) {
     navigate("/login");
   }
 
-  if (!teacher) {
-    return <p>Loading teacher...</p>;
+  if (!course) {
+    return <h2>Loading course...</h2>;
   }
 
-  return (
+  return(
     <SubmitRating
-      key={teacher.id}
-      title={teacher.first_name + " " + teacher.last_name}
+      key={code}
+      title={course.name}
       Submit={handleSubmit}
       rating={rating}
       setRating={setRating}
       comment={comment}
       setComment={setComment}
-    ></SubmitRating>
-  );
+    >
+    </SubmitRating>
+  )
 }

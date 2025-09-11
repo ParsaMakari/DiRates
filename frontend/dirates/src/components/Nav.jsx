@@ -22,7 +22,6 @@ function Navigation({user, signOut}) {
             <Nav.Link href="/teachers">Teachers</Nav.Link>
             {!user ? (
             <>
-            <Nav.Link href="/signup">Sign up</Nav.Link>
             <Nav.Link href="/login">Login</Nav.Link>
             </>
             ) : (

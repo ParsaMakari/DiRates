@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Login({ setUser }) {
-
-  useEffect(()=>{
-    document.title ="DiRates | Login"
-  },[])
+  useEffect(() => {
+    document.title = "DiRates | Login";
+  }, []);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -65,6 +65,18 @@ function Login({ setUser }) {
           <button type="submit" className="custom-button">
             Log In
           </button>
+          <div style={{display:"flex", justifyContent:"center"}}>
+            <p style={{ marginTop: "10px"}}>
+              Don't have an account?
+              <br />
+              <Link
+                to="/signup"
+                style={{ color: "#007bff", textDecoration: "underline" }}
+              >
+                Register here
+              </Link>
+            </p>
+          </div>
         </form>
         {message && <p>{message}</p>}
       </div>

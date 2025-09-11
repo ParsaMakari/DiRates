@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from .models import Courses, CourseRatings, ReviewComment, ReviewLike
+from .models import Course, CourseRating, ReviewComment, ReviewLike
 from django.contrib.auth.models import User
 
 
-class CoursesSerializer(serializers.ModelSerializer):
+class CourseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Courses
+        model = Course
         fields = '__all__'
 
 
@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
 class RatingSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
-        model = CourseRatings
+        model = CourseRating
         fields = '__all__'
         read_only_fields= ['user', 'created_at', 'likes']
         
@@ -28,7 +28,7 @@ class RatingSerializer(serializers.ModelSerializer):
         return value
         
     def validate_course(self,value):
-        if not Courses.objects.filter(code = value.code).exists():
+        if not Course.objects.filter(code = value.code).exists():
             raise serializers.ValidationError("The course doesnt exist")
         return value
     
@@ -36,7 +36,7 @@ class RatingSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         course= data.get('course')
         
-        if CourseRatings.objects.filter(user=user, course=course).exists():
+        if CourseRating.objects.filter(user=user, course=course).exists():
             raise serializers.ValidationError("You have already rated this course!")
         return data
     

@@ -12,8 +12,8 @@ export default function Comment({ children, user, stars }) {
       }}
     >
       <blockquote>
-        <div style={{display:"flex", justifyContent:"space-between"}}>
-          <p>{children}</p>
+        <div style={{display:"flex", justifyContent:"space-between", padding:"2px"}}>
+          <p style={{padding:"1px", fontFamily:"Garamond"}}>{children}</p>
           <Rating
           style={{margin:"0.25rem"}}
           size={20}

@@ -3,7 +3,7 @@ from django.conf import settings
 
 
 
-class Courses(models.Model):
+class Course(models.Model):
     code = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=50)
     departement = models.CharField(max_length=50)
@@ -14,9 +14,9 @@ class Courses(models.Model):
     def __str__(self):
         return f"{self.code} - {self.name}"
     
-class CourseRatings(models.Model):
+class CourseRating(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    course = models.ForeignKey(Courses, on_delete= models.CASCADE)
+    course = models.ForeignKey(Course, on_delete= models.CASCADE)
     review = models.TextField()
     score = models.PositiveSmallIntegerField()
     likes = models.IntegerField(default=0)
@@ -24,13 +24,13 @@ class CourseRatings(models.Model):
 
 class ReviewLike(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="course_review_likes")
-    course_rating = models.ForeignKey(CourseRatings, on_delete=models.CASCADE)
+    course_rating = models.ForeignKey(CourseRating, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ReviewComment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="course_review_comments")
-    course_rating = models.ForeignKey(CourseRatings, on_delete=models.CASCADE)
+    course_rating = models.ForeignKey(CourseRating, on_delete=models.CASCADE)
     comment = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
     

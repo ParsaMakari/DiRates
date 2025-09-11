@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Teachers, TeacherRatings, ReviewComment, ReviewLike
+from .models import Teacher, TeacherRating, ReviewComment, ReviewLike
 from django.contrib.auth.models import User
 
 
@@ -9,11 +9,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'first_name', 'last_name']
 
 
-class TeachersSerializer(serializers.ModelSerializer):
+class TeacherSerializer(serializers.ModelSerializer):
     picture = serializers.SerializerMethodField()
 
     class Meta: 
-        model = Teachers
+        model = Teacher
         fields = '__all__'
 
     def get_picture(self, obj):
@@ -22,10 +22,10 @@ class TeachersSerializer(serializers.ModelSerializer):
             return request.build_absolute_uri(obj.picture.url)
         return None
 
-class TeacherRatingsSerializer(serializers.ModelSerializer):
+class TeacherRatingSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True) 
     class Meta:
-        model= TeacherRatings
+        model= TeacherRating
         fields= '__all__'
         read_only_fields=['created_at', "user"]
 
@@ -35,7 +35,7 @@ class TeacherRatingsSerializer(serializers.ModelSerializer):
         return value
         
     def validate_teacher(self,value):
-        if not Teachers.objects.filter(pk = value.pk).exists():
+        if not Teacher.objects.filter(pk = value.pk).exists():
             raise serializers.ValidationError("The teacher doesnt exist")
         return value
     
@@ -43,7 +43,7 @@ class TeacherRatingsSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         teacher= data.get('teacher')
         
-        if TeacherRatings.objects.filter(user=user, teacher=teacher).exists():
+        if TeacherRating.objects.filter(user=user, teacher=teacher).exists():
             raise serializers.ValidationError("You have already rated this teacher!")
         return data
     

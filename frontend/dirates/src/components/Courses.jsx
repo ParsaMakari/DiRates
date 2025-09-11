@@ -1,7 +1,7 @@
 import { Rating } from "react-simple-star-rating";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import SearchBar from './SearchBar.jsx'
 function Courses({ courses, user, courseRatings }) {
@@ -18,6 +18,7 @@ function Courses({ courses, user, courseRatings }) {
     }
   },[courses])
 
+  const navigate = useNavigate(); 
 
   return (
     <div>
@@ -40,7 +41,7 @@ function Courses({ courses, user, courseRatings }) {
           {shownCourses.map((course) => {
             const rating = user
               ? courseRatings.find(
-                  (r) => r.user === user.id && r.course === course.code
+                  (r) => r.user.id === user.id && r.course === course.code
                 ) || null
               : null;
             return (
@@ -57,7 +58,7 @@ function Courses({ courses, user, courseRatings }) {
                   initialValue={rating ? rating.score : course.rating}
                   allowFraction={true}
                   onClick={() =>
-                    user ? console.log("user") : console.log("not user")
+                    user ? navigate(`${course.code}/rate`) : navigate(`/login`) 
                   }
                   fillColor={rating ? "salmon" : "#f1a545"}
                 />

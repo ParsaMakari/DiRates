@@ -2,16 +2,16 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
-from .models import TeacherRatings, Teachers, ReviewLike, ReviewComment
-from .serializer import TeacherRatingsSerializer, TeachersSerializer, ReviewCommentSerializer, ReviewLikeSerializer
+from .models import TeacherRating, Teacher, ReviewLike, ReviewComment
+from .serializer import TeacherRatingSerializer, TeacherSerializer, ReviewCommentSerializer, ReviewLikeSerializer
 from rest_framework.response import Response
 from django.db.models import Avg
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def list_teachers(request):
-    teachers = Teachers.objects.all()
-    serializer = TeachersSerializer(teachers, many=True, context={'request': request})
+    teachers = Teacher.objects.all()
+    serializer = TeacherSerializer(teachers, many=True, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
@@ -22,17 +22,17 @@ def get_teacher(request, pk):
     except ValueError:
         return Response("invalid teacher idenitifer", status=status.HTTP_400_BAD_REQUEST)
     try:
-        teacher = Teachers.objects.get(pk=pk)
-        serializer = TeachersSerializer(teacher)
+        teacher = Teacher.objects.get(pk=pk)
+        serializer = TeacherSerializer(teacher)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    except Teachers.DoesNotExist:
+    except Teacher.DoesNotExist:
         return Response("Teacher not found", status=status.HTTP_404_NOT_FOUND)
     
 
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def add_teacher(request):
-    serializer = TeachersSerializer(data=request.data)
+    serializer = TeacherSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status.HTTP_201_CREATED)
@@ -41,8 +41,8 @@ def add_teacher(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def list_reviews(request):
-    reviews= TeacherRatings.objects.all()
-    serializer = TeacherRatingsSerializer(reviews, many=True)
+    reviews= TeacherRating.objects.all()
+    serializer = TeacherRatingSerializer(reviews, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
@@ -53,10 +53,10 @@ def get_review(request,pk):
     except ValueError:
         return Response("invalid review identifier", status=status.HTTP_400_BAD_REQUEST)
     try:
-        teacher_review = TeacherRatings.objects.get(pk=pk)
-        serializer = TeacherRatingsSerializer(teacher_review)
+        teacher_review = TeacherRating.objects.get(pk=pk)
+        serializer = TeacherRatingSerializer(teacher_review)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    except TeacherRatings.DoesNotExist:
+    except TeacherRating.DoesNotExist:
         return Response("Rating not found", status=status.HTTP_404_NOT_FOUND)
 
 
@@ -64,11 +64,11 @@ def get_review(request,pk):
 @permission_classes([IsAuthenticated])
 def add_rating(request):
     print("RAW DATA RECEIVED:", request.data)
-    serializer = TeacherRatingsSerializer(data=request.data, context={'request': request})
+    serializer = TeacherRatingSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         rating = serializer.save(user=request.user)
         teacher = rating.teacher
-        avg= TeacherRatings.objects.filter(teacher=teacher).aggregate(avg=Avg('score'))['avg']
+        avg= TeacherRating.objects.filter(teacher=teacher).aggregate(avg=Avg('score'))['avg']
         teacher.rating = avg
         teacher.save()
         return Response(serializer.data, status.HTTP_201_CREATED)

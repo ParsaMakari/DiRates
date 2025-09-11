@@ -11,6 +11,7 @@ import Home from "./components/Home.jsx";
 import TeacherDetails from "./components/TeacherDetails.jsx";
 import CourseDetail from "./components/CourseDetail.jsx";
 import RateTheTeacher from "./components/RateTheTeacher.jsx"
+import RateTheCourse from "./components/RateTheCourse.jsx"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
@@ -111,6 +112,16 @@ function App() {
           }
         />
         <Route
+          path="/courses/:code/rate"
+          element={
+            <RateTheCourse
+              courses={courses}
+              user={user}
+            />
+          }
+        />
+        
+        <Route
           path="/courses/:code"
           element={
             <CourseDetail
@@ -120,6 +131,7 @@ function App() {
             />
           }
         />
+
         <Route
           path="/teachers/:id"
           element={

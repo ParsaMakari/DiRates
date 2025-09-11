@@ -14,11 +14,11 @@ export default function TeacherDetails({
   const teacher = teachers.find((t) => t.id == id);
   const rating = user
     ? ratings.find(
-        (r) => r.user === user.id && r.teacher === teacher.id
+        (r) => r.user.id === user.id && r.teacher === teacher.id
       ) || null
     : null;
   const teacherReviews = ratings.filter((r)=> r.teacher === teacher.id) || null 
-  console.log(teacherReviews)
+  console.log(ratings)
   const navigate = useNavigate();
   useEffect(() => {
     document.title = `DiRates | ${teacher ? teacher.last_name : "not found"}`;
@@ -76,7 +76,7 @@ export default function TeacherDetails({
 
       {teacherReviews? 
         teacherReviews.map((r)=>(
-          <Comment key={r.id} stars={r.score} user={r.user}>
+          <Comment key={r.id} stars={r.score} user={r.user.username}>
             {r.review}
           </Comment>)):
           <></>

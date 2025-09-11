@@ -1,24 +1,24 @@
 from django.shortcuts import render
-from .models import Courses, CourseRatings, ReviewLike, ReviewComment
+from .models import Course, CourseRating, ReviewLike, ReviewComment
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from .serializer import CoursesSerializer, RatingSerializer, ReviewCommentSerializer, ReviewLikeSerializer
+from .serializer import CourseSerializer, RatingSerializer, ReviewCommentSerializer, ReviewLikeSerializer
 from django.db.models import Avg
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def list_courses(request):
-    courses = Courses.objects.all()
-    serializer = CoursesSerializer(courses, many =True)
+    courses = Course.objects.all()
+    serializer = CourseSerializer(courses, many =True)
     return Response(serializer.data)
 
 
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def add_course(request):
-    serializer = CoursesSerializer(data=request.data)
+    serializer = CourseSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -28,7 +28,7 @@ def add_course(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def list_ratings(request):
-    ratings = CourseRatings.objects.all()
+    ratings = CourseRating.objects.all()
     serializer = RatingSerializer(ratings, many=True)
     return Response(serializer.data)
 
@@ -41,7 +41,7 @@ def post_rating(request):
     if serializer.is_valid():
         rating = serializer.save(user=request.user) #The user field is filled automatically.
         course = rating.course
-        avg = CourseRatings.objects.filter(course=course).aggregate(avg=Avg("score"))['avg']
+        avg = CourseRating.objects.filter(course=course).aggregate(avg=Avg("score"))['avg']
         course.rating = avg
         course.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
