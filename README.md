@@ -9,8 +9,9 @@ It lets students rate and review computer science courses at UdeM.
    ```bash
    git clone https://github.com/your-username/dirates.git
    cd dirates
+   ```
 
-2.	Start the backend
+2.*Start the backend
    ```bash
     cd backend
     pip install -r requirements.txt
@@ -19,11 +20,11 @@ It lets students rate and review computer science courses at UdeM.
     python manage.py runserve
 ```
 
-3.	Start the frontend
+3.**Start the frontend
  ```bash
    cd frontend
     npm install
     npm start
-
+```
 
 
