@@ -1,30 +1,21 @@
 # Dirates
 
-Dirates is a full-stack web app built with **Django (backend)** and **React (frontend)**.  
-It lets students rate and review computer science courses at UdeM.
+Dirates is a full-stack web app with **Django (backend)** and **React (frontend)** to rate and review UdeM computer science courses.
 
-## 🚀 Launching the project
+## 🚀 Launch
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-username/dirates.git
-   cd dirates
-   ```
+```bash
+# Clone repo
+git clone https://github.com/your-username/dirates.git
+cd dirates
 
-2.*Start the backend
-   ```bash
-    cd backend
-    pip install -r requirements.txt
-    cd dirates_BE
-    python manage.py migrate
-    python manage.py runserve
-```
+# Backend
+cd backend/dirates_BE
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver &
 
-3.**Start the frontend
- ```bash
-   cd frontend
-    npm install
-    npm start
-```
-
-
+# Frontend
+cd ../../frontend
+npm install
+npm start
