@@ -9,6 +9,9 @@ Dirates is a full-stack web app with **Django (backend)** and **React (frontend)
 git clone https://github.com/your-username/dirates.git
 cd dirates
 
+# Activate backend virtual environment
+source backend/env/bin/activate
+
 # Backend
 cd backend/dirates_BE
 pip install -r requirements.txt
