@@ -19,3 +19,9 @@ python manage.py runserver &
 cd ../../frontend
 npm install
 npm start
+
+
+```
+Open http://localhost:3000
+
+![Dirates Screenshot](./screenshot.png)
