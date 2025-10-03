@@ -71,7 +71,7 @@ export default function TeacherDetails({ teachers, user, ratings, darkMode }) {
 
       {teacherReviews ? (
         teacherReviews.map((r) => (
-          <Comment key={r.id} stars={r.score} user={r.user.username}>
+          <Comment key={r.id} stars={r.score} user={r.user.username} likes={r.likes}>
             {r.review}
           </Comment>
         ))

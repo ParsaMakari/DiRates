@@ -23,6 +23,7 @@ class TeacherRating(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     score = models.SmallIntegerField()
     review = models.TextField()
+    likes = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
