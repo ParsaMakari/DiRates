@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import Card from "react-bootstrap/Card";
 import { useEffect } from 'react';
@@ -10,6 +10,7 @@ export default function CourseDetail({
   courseRatings,
   darkMode,
 }) {
+  const navigate = useNavigate();
   const { code } = useParams();
   const course = courses.find((course) => course.code === code);
   const rating = user
@@ -51,13 +52,16 @@ export default function CourseDetail({
                     size={30}
                     initialValue={rating ? rating.score : course.rating}
                     allowFraction={true}
+                    onClick={() =>
+                          user ? navigate(`${course.code}/rate`) : navigate(`/login`) 
+                      }
                     fillColor={rating ? "salmon" : "#f1a545"}
                   />
         </Card.Body>
       </Card>
 
       {reviews.length > 0 && reviews.map((r)=>(
-        <Comment key ={r.id} stars={r.score} user={r.user.username}>
+        <Comment key ={r.id} stars={r.score} user={r.user.username} likes={r.likes}>
           {r.review}
         </Comment>
 

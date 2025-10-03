@@ -2,7 +2,7 @@ import Card from "react-bootstrap/Card";
 import { Rating } from "react-simple-star-rating";
 import LikeButton from './LikeButton.jsx'
 
-export default function Comment({ children, user, stars }) {
+export default function Comment({ children, user, stars, likes }) {
   return (
     <Card.Body
       style={{
@@ -24,7 +24,7 @@ export default function Comment({ children, user, stars }) {
         </div>
         <footer className="blockquote-footer">{user}</footer>
 
-        <LikeButton>
+        <LikeButton likes={likes}>
           
         </LikeButton>
         

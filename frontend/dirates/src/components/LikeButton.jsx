@@ -1,7 +1,7 @@
 
 import { FaThumbsUp } from "react-icons/fa";
 
-export default function LikeButton({likes = 9, liked, setLike, handleLike }) {
+export default function LikeButton({likes, handleLike }) {
 
 
 
@@ -18,7 +18,7 @@ export default function LikeButton({likes = 9, liked, setLike, handleLike }) {
         userSelect: "none"
       }}
     >
-      <FaThumbsUp color={liked ? "salmon" : "#ccc"} />
+      <FaThumbsUp color={"#ccc"} />
       <span style={{ fontSize: "0.8rem" }}>{likes}</span>
     </span>
   );
